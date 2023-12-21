@@ -26,6 +26,7 @@ const baseEnv = {
       )
       .default('FREE'),
     DEBUG: boolean.optional().default('false'),
+    URLTIMERAPI: z.string().optional(),
   },
   client: {
     NEXT_PUBLIC_E2E_TEST: boolean.optional(),

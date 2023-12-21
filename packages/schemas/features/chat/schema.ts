@@ -4,6 +4,7 @@ import {
   googleAnalyticsOptionsSchema,
   paymentInputRuntimeOptionsSchema,
   pixelOptionsSchema,
+  timerOptionsSchema,
   redirectOptionsSchema,
 } from '../blocks'
 import { logSchema } from '../result'
@@ -240,6 +241,11 @@ export const clientSideActionSchema = z
       .or(
         z.object({
           pixel: pixelOptionsSchema,
+        })
+      )
+      .or(
+        z.object({
+          timer: timerOptionsSchema,
         })
       )
   )

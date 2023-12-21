@@ -40,6 +40,7 @@ import { AbTestSettings } from '@/features/blocks/logic/abTest/components/AbTest
 import { PictureChoiceSettings } from '@/features/blocks/inputs/pictureChoice/components/PictureChoiceSettings'
 import { SettingsHoverBar } from './SettingsHoverBar'
 import { PixelSettings } from '@/features/blocks/integrations/pixel/components/PixelSettings'
+import { TimerSettings } from '@/features/blocks/integrations/timer/components/TimerSettings'
 import { ZemanticAiSettings } from '@/features/blocks/integrations/zemanticAi/ZemanticAiSettings'
 import { InputBlockType } from '@typebot.io/schemas/features/blocks/inputs/constants'
 import { IntegrationBlockType } from '@typebot.io/schemas/features/blocks/integrations/constants'
@@ -314,6 +315,17 @@ export const BlockSettings = ({
           options={block.options}
           onOptionsChange={updateOptions}
         />
+      )
+    }
+    case IntegrationBlockType.TIMER: {
+      return groupId ? (
+        <TimerSettings
+          groupId={groupId}
+          options={block.options}
+          onOptionsChange={updateOptions}
+        />
+      ) : (
+        <></>
       )
     }
     case IntegrationBlockType.ZEMANTIC_AI: {

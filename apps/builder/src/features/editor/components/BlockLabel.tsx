@@ -94,6 +94,8 @@ export const BlockLabel = ({ type }: Props): JSX.Element => {
       return <Text fontSize="sm">{t('editor.sidebarBlock.openai.label')}</Text>
     case IntegrationBlockType.PIXEL:
       return <Text fontSize="sm">{t('editor.sidebarBlock.pixel.label')}</Text>
+    case IntegrationBlockType.TIMER:
+        return <Text fontSize="sm">{t('editor.sidebarBlock.timer.label')}</Text>
     case IntegrationBlockType.ZEMANTIC_AI:
       return (
         <Text fontSize="sm">{t('editor.sidebarBlock.zemanticAi.label')}</Text>

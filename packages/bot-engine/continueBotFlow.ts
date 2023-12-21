@@ -37,6 +37,7 @@ import { defaultPictureChoiceOptions } from '@typebot.io/schemas/features/blocks
 import { defaultFileInputOptions } from '@typebot.io/schemas/features/blocks/inputs/file/constants'
 import { VisitedEdge } from '@typebot.io/prisma'
 import { getBlockById } from '@typebot.io/lib/getBlockById'
+import { executeTimerBlock } from './blocks/integrations/timer/executeTimerBlock'
 
 type Params = {
   version: 1 | 2
@@ -103,6 +104,7 @@ export const continueBotFlow = async (
   let formattedReply: string | undefined
 
   if (isInputBlock(block)) {
+    executeTimerBlock(state);
     const parsedReplyResult = parseReply(newSessionState)(reply, block)
 
     if (parsedReplyResult.status === 'fail')

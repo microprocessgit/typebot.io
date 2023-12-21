@@ -27,6 +27,8 @@ import {
 } from './parseBubbleBlock'
 import { InputBlockType } from '@typebot.io/schemas/features/blocks/inputs/constants'
 import { VisitedEdge } from '@typebot.io/prisma'
+import { executeTimerBlock, setBlock } from './blocks/integrations/timer/executeTimerBlock'
+import { IntegrationBlockType } from '@typebot.io/schemas/features/blocks/integrations/constants'
 
 type ContextProps = {
   version: 1 | 2
@@ -62,12 +64,14 @@ export const executeGroup = async (
   let lastBubbleBlockId: string | undefined = currentLastBubbleId
 
   let newSessionState = state
-
   let index = -1
   for (const block of group.blocks) {
     index++
     nextEdgeId = block.outgoingEdgeId
-
+    if(block.type === IntegrationBlockType.TIMER){
+      setBlock(block)
+      continue
+    } 
     if (isBubbleBlock(block)) {
       if (!block.content || (firstBubbleWasStreamed && index === 0)) continue
       messages.push(
@@ -80,8 +84,11 @@ export const executeGroup = async (
       lastBubbleBlockId = block.id
       continue
     }
-
-    if (isInputBlock(block))
+    if (isInputBlock(block)){
+      let executionTimer:any;
+      executionTimer = executeTimerBlock(state);
+      if (executionTimer.logs)
+        logs = [...(logs ?? []), ...executionTimer.logs]
       return {
         messages,
         input: await parseInput(newSessionState)(block),
@@ -93,12 +100,12 @@ export const executeGroup = async (
         logs,
         visitedEdges,
       }
+    }
     const executionResponse = isLogicBlock(block)
       ? await executeLogic(newSessionState)(block)
       : isIntegrationBlock(block)
       ? await executeIntegration(newSessionState)(block)
       : null
-
     if (!executionResponse) continue
     if (executionResponse.logs)
       logs = [...(logs ?? []), ...executionResponse.logs]
@@ -138,7 +145,6 @@ export const executeGroup = async (
       break
     }
   }
-
   if (!nextEdgeId && newSessionState.typebotsQueue.length === 1)
     return { messages, newSessionState, clientSideActions, logs, visitedEdges }
 
@@ -151,7 +157,6 @@ export const executeGroup = async (
   if (!nextGroup.group) {
     return { messages, newSessionState, clientSideActions, logs, visitedEdges }
   }
-
   return executeGroup(nextGroup.group, {
     version,
     state: newSessionState,

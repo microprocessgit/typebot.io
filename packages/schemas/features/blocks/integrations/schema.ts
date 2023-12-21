@@ -10,6 +10,7 @@ import { zapierBlockSchemas } from './zapier'
 import { webhookBlockSchemas } from './webhook'
 import { makeComBlockSchemas } from './makeCom'
 import { pabblyConnectBlockSchemas } from './pabblyConnect'
+import { timerBlockSchema } from '../integrations/timer'
 
 export const integrationBlockSchemas = {
   v5: [
@@ -24,6 +25,7 @@ export const integrationBlockSchemas = {
     zapierBlockSchemas.v5,
     pixelBlockSchema,
     zemanticAiBlockSchema,
+    timerBlockSchema,
   ],
   v6: [
     chatwootBlockSchema,
@@ -37,6 +39,7 @@ export const integrationBlockSchemas = {
     zapierBlockSchemas.v6,
     pixelBlockSchema,
     zemanticAiBlockSchema,
+    timerBlockSchema
   ],
 } as const
 

@@ -33,6 +33,7 @@ import { TypebotLinkIcon } from '@/features/blocks/logic/typebotLink/components/
 import { AbTestIcon } from '@/features/blocks/logic/abTest/components/AbTestIcon'
 import { PictureChoiceIcon } from '@/features/blocks/inputs/pictureChoice/components/PictureChoiceIcon'
 import { PixelLogo } from '@/features/blocks/integrations/pixel/components/PixelLogo'
+import { TimerLogo } from '@/features/blocks/integrations/timer/components/TimerLogo'
 import { ZemanticAiLogo } from '@/features/blocks/integrations/zemanticAi/ZemanticAiLogo'
 import { BubbleBlockType } from '@typebot.io/schemas/features/blocks/bubbles/constants'
 import { InputBlockType } from '@typebot.io/schemas/features/blocks/inputs/constants'
@@ -117,6 +118,8 @@ export const BlockIcon = ({ type, ...props }: BlockIconProps): JSX.Element => {
       return <OpenAILogo fill={openAIColor} {...props} />
     case IntegrationBlockType.PIXEL:
       return <PixelLogo {...props} />
+    case IntegrationBlockType.TIMER:
+        return <TimerLogo {...props} />
     case IntegrationBlockType.ZEMANTIC_AI:
       return <ZemanticAiLogo {...props} />
     case 'start':
