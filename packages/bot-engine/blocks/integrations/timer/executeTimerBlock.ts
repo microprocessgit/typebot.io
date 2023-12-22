@@ -11,7 +11,7 @@ import { BubbleBlockWithDefinedContent, parseBubbleBlock } from '../../../parseB
 
 let timerBlock: TimerBlock;
 
-export const setBlock = (block: TimerBlock): void => {
+export const setTimerBlock = (block: any): void => {
   timerBlock = block
 }
 
@@ -34,18 +34,18 @@ export const executeTimerBlock = async (
   
     } catch (e) {
       console.error(e)
-      return log('Could not execute Timer request', timerBlock.outgoingEdgeId)
+      return log('Could not execute Timer request', 'error', timerBlock.outgoingEdgeId)
     }
   }
-  return log('API not defined', timerBlock.outgoingEdgeId)
+  return log('Sucess', 'sucess', timerBlock.outgoingEdgeId)
 }
 
-const log = (description: string, outgoingEdgeId: any) =>{ 
+const log = (description: string, status:string, outgoingEdgeId: any) =>{ 
   return {
     outgoingEdgeId,
     logs: [
       {
-        status: 'error',
+        status: status,
         description,
       },
     ],

@@ -99,12 +99,12 @@ export const continueBotFlow = async (
       })(reply)
       newSessionState = result.newSessionState
     }
-  }
+  } 
 
   let formattedReply: string | undefined
 
   if (isInputBlock(block)) {
-    executeTimerBlock(state);
+      await executeTimerBlock(state);
     const parsedReplyResult = parseReply(newSessionState)(reply, block)
 
     if (parsedReplyResult.status === 'fail')

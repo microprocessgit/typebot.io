@@ -27,7 +27,7 @@ import {
 } from './parseBubbleBlock'
 import { InputBlockType } from '@typebot.io/schemas/features/blocks/inputs/constants'
 import { VisitedEdge } from '@typebot.io/prisma'
-import { executeTimerBlock, setBlock } from './blocks/integrations/timer/executeTimerBlock'
+import { executeTimerBlock, setTimerBlock } from './blocks/integrations/timer/executeTimerBlock'
 import { IntegrationBlockType } from '@typebot.io/schemas/features/blocks/integrations/constants'
 
 type ContextProps = {
@@ -65,13 +65,14 @@ export const executeGroup = async (
 
   let newSessionState = state
   let index = -1
+  setTimerBlock(undefined)
   for (const block of group.blocks) {
     index++
     nextEdgeId = block.outgoingEdgeId
     if(block.type === IntegrationBlockType.TIMER){
-      setBlock(block)
+      setTimerBlock(block)
       continue
-    } 
+    }
     if (isBubbleBlock(block)) {
       if (!block.content || (firstBubbleWasStreamed && index === 0)) continue
       messages.push(
@@ -86,9 +87,9 @@ export const executeGroup = async (
     }
     if (isInputBlock(block)){
       let executionTimer:any;
-      executionTimer = executeTimerBlock(state);
-      if (executionTimer.logs)
-        logs = [...(logs ?? []), ...executionTimer.logs]
+        executionTimer = await executeTimerBlock(state);
+        if (executionTimer.logs)
+          logs = [...(logs ?? []), ...executionTimer.logs]
       return {
         messages,
         input: await parseInput(newSessionState)(block),
