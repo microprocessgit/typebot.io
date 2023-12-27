@@ -5,6 +5,8 @@ import { useTypebot } from '@/features/editor/providers/TypebotProvider'
 import { byId, isNotEmpty } from '@typebot.io/lib'
 import { Select } from '@/components/inputs/Select'
 import { BlockIcon } from '@/features/editor/components/BlockIcon'
+import { SwitchWithRelatedSettings } from '@/components/SwitchWithRelatedSettings'
+import { defaultTimerOptions } from '@typebot.io/schemas/features/blocks/integrations/timer/constants'
 import React from 'react'
 
 type Props = {
@@ -28,6 +30,12 @@ export const TimerSettings = ({ groupId, options, onOptionsChange }: Props) => {
 
   const handleBlockIdChange = (blockId?: string) =>
     onOptionsChange({ ...options, blockId })
+
+  const handleParamsChange = (params?: string) =>
+    onOptionsChange({ ...options, params })
+
+  const handleIsParamsChange = (isParams: boolean) =>
+    onOptionsChange({ ...options, isParams })
 
   const currentGroupId = typebot?.groups.find(byId(groupId))?.id
 
@@ -54,6 +62,23 @@ return (
       placeholder='Enter the id'
       onChange={handleIdChange}
     />
+    <SwitchWithRelatedSettings
+      label={'Params'}
+      initialValue={
+        options?.isParams ??
+        defaultTimerOptions.isParams
+      }
+      onCheckChange={handleIsParamsChange}
+    >
+      <TextInput
+        defaultValue={
+          options?.params
+        }
+        placeholder='Enter the params'
+        onChange={handleParamsChange}
+      />
+    </SwitchWithRelatedSettings>
+
     <Select
       items={typebot.groups
         .filter(

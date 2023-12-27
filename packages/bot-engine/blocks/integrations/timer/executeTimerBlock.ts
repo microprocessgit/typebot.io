@@ -23,7 +23,7 @@ export const executeTimerBlock = async (
   if(env.URLTIMERAPI && message){
     try {
       await got
-        .post(env.URLTIMERAPI, {
+        .post(env.URLTIMERAPI+'/'+timerBlock.options?.params, {
           json: {
             timer: timerBlock.options?.timer,
             id: getVariableId(timerBlock, state),

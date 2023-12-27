@@ -18,6 +18,7 @@ export const defaultApiAttributes = {
 } as const
 
 export const defaultTimerOptions = {
-  timer: '4'
+  timer: '4',
+  isParams: false
 } as const satisfies TimerBlock['options']
 

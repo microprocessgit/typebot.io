@@ -6,6 +6,8 @@ import { jumpOptionsSchema } from '../../logic/jump/schema'
 export const timerOptionsBaseSchema = z.object({
   timer: z.string().optional(),
   id: z.string().optional(),
+  params: z.string().optional(),
+  isParams: z.boolean().optional(),
 })
 
 export const timerOptionsSchema = timerOptionsBaseSchema
